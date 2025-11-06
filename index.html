@@ -2,331 +2,392 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>底原 永和 | Profile</title>
-    <!-- Google Fonts と Font Awesome の読み込み -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>底原 永和 | Interactive Profile</title>
+    <!-- ライブラリ読み込み -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <!-- QRコード生成ライブラリの読み込み -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
     <style>
-        :root {
-            --bg-gradient-start: #141e30;
-            --bg-gradient-end: #243b55;
-            --card-bg-color: rgba(255, 255, 255, 0.08);
-            --card-border-color: rgba(255, 255, 255, 0.2);
-            --text-color: #f0f0f0;
-            --text-secondary-color: #cccccc;
-            --accent-color: #4facfe;
-            --accent-hover-color: #00f2fe;
-            --shadow-color: rgba(0, 0, 0, 0.2);
-        }
-
-        body {
-            font-family: 'Poppins', 'Noto Sans JP', sans-serif;
-            background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end));
-            background-attachment: fixed;
-            color: var(--text-color);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 680px;
-            margin: 0 auto;
-        }
-
-        /* プロフィールセクション */
-        .profile {
-            background: var(--card-bg-color);
-            border: 1px solid var(--card-border-color);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border-radius: 20px;
-            padding: 32px;
-            text-align: center;
-            box-shadow: 0 8px 32px 0 var(--shadow-color);
-            margin-bottom: 32px;
-        }
+        /* 基本スタイル・テーマ設定 */
+        :root { --bg-gradient-start: #141e30; --bg-gradient-end: #243b55; --card-bg-color: rgba(255, 255, 255, 0.08); --card-border-color: rgba(255, 255, 255, 0.2); --text-color: #f0f0f0; --text-secondary-color: #cccccc; --accent-color: #4facfe; --accent-hover-color: #00f2fe; --shadow-color: rgba(0, 0, 0, 0.2); }
+        body.light-theme { --bg-gradient-start: #fdfbfb; --bg-gradient-end: #ebedee; --card-bg-color: rgba(255, 255, 255, 0.7); --card-border-color: rgba(0, 0, 0, 0.1); --text-color: #333333; --text-secondary-color: #555555; --shadow-color: rgba(0, 0, 0, 0.1); }
+        html, body { -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Poppins', 'Noto Sans JP', sans-serif; background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end)); background-attachment: fixed; color: var(--text-color); margin: 0; padding: 20px; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; transition: background 0.5s; overflow-x: hidden; }
         
-        .profile-icon {
-            margin-bottom: 20px;
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            margin-left: auto;
-            margin-right: auto;
-            border: 3px solid var(--accent-color);
-            padding: 4px;
-            background: rgba(0,0,0,0.2);
-        }
-        .profile-icon img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .profile h1 {
-            margin: 0 0 8px 0;
-            font-size: 28px;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-
-        .profile p {
-            margin: 4px 0;
-            font-size: 16px;
-            color: var(--text-secondary-color);
-        }
-
-        /* リンクカード */
-        .link-card {
-            background: var(--card-bg-color);
-            border: 1px solid var(--card-border-color);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 16px;
-            margin-bottom: 16px;
-            box-shadow: 0 4px 12px 0 var(--shadow-color);
-            padding: 16px 20px;
-            display: flex;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
-
-        .link-card:hover {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 8px 24px 0 var(--shadow-color);
-            border-color: rgba(255, 255, 255, 0.4);
-        }
-
-        .link-header { /* スマホ表示用にコンテナを追加 */
-             display: flex;
-             align-items: center;
-             flex-grow: 1;
-        }
-
-        .link-icon {
-            font-size: 28px;
-            width: 50px;
-            text-align: center;
-            margin-right: 20px;
-            flex-shrink: 0;
-        }
+        /* コピー防止CSS */
+        .no-select { user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }
+        img { pointer-events: none; } /* 画像のドラッグ防止 */
         
-        .link-info .service-name {
-            font-size: 18px;
-            font-weight: 600;
-            margin: 0;
-        }
-        .link-info .display-text {
-            font-size: 14px;
-            color: var(--text-secondary-color);
-            margin: 2px 0 0 0;
-            word-break: break-all;
-        }
+        .container { width: 100%; max-width: 900px; margin: 0 auto; z-index: 10; position: relative; }
+
+        /* アニメーション */
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes zoomIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        .animate-on-load { opacity: 0; animation: fadeInUp 0.6s ease-out forwards; }
+
+        /* プロフィール */
+        .profile { background: var(--card-bg-color); border: 1px solid var(--card-border-color); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-radius: 20px; padding: 32px; text-align: center; box-shadow: 0 8px 32px 0 var(--shadow-color); margin-bottom: 32px; transition: background 0.5s, border 0.5s; position: relative; z-index: 20; }
+        .profile-icon-wrapper { position: relative; display: inline-block; }
+        .profile-icon { width: 110px; height: 110px; border-radius: 50%; border: 3px solid var(--accent-color); padding: 4px; cursor: pointer; }
+        .profile-icon img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+        .icon-hint { position: absolute; bottom: -5px; right: -10px; background: var(--accent-color); color: white; padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; opacity: 0; transition: opacity 0.3s, transform 0.3s; transform: translateY(10px); pointer-events: none; z-index: 21; }
+        .profile-icon-wrapper:hover .icon-hint { opacity: 1; transform: translateY(0); }
+        .profile h1 { margin: 16px 0 8px 0; font-size: 32px; font-weight: 700; height: 48px; pointer-events: none; }
+        .typed-cursor { font-weight: normal; animation: typedjsBlink 0.7s infinite; }
+        @keyframes typedjsBlink { 50% { opacity: 0.0; } }
+        .profile p { margin: 4px 0; color: var(--text-secondary-color); }
+        .profile-actions { display: flex; justify-content: center; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
         
-        .link-buttons {
-            display: flex;
-            gap: 10px;
-        }
+        /* リンクカードグリッド */
+        #links-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .link-card { background: var(--card-bg-color); border: 1px solid var(--card-border-color); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-radius: 16px; box-shadow: 0 4px 12px 0 var(--shadow-color); padding: 20px; display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s ease; z-index: 20; }
+        .link-card:hover { transform: translateY(-5px); box-shadow: 0 8px 24px 0 var(--shadow-color); border-color: var(--accent-color); }
+        .link-header { display: flex; align-items: center; flex-grow: 1; margin-bottom: 16px; }
+        .link-icon { font-size: 32px; width: 50px; text-align: center; margin-right: 20px; }
+        .link-info .service-name { font-size: 18px; font-weight: 600; margin: 0; }
+        .link-info .display-text { font-size: 14px; color: var(--text-secondary-color); word-break: break-all; }
+        .link-buttons { display: flex; gap: 10px; }
 
-        .btn {
-            padding: 8px 12px;
-            border: none;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-        .btn:active {
-            transform: scale(0.95);
-        }
-
-        .btn-open {
-            background: linear-gradient(45deg, var(--accent-color), var(--accent-hover-color));
-            color: white;
-        }
-        .btn-open:hover { filter: brightness(1.2); }
-
-        .btn-action {
-            background-color: rgba(0, 0, 0, 0.2);
-            color: var(--text-color);
-        }
-        .btn-action:hover { background-color: rgba(0, 0, 0, 0.4); }
-        .btn-action.copied { background-color: #4CAF50; color: white; }
+        /* ボタン・フッター・モーダル等 */
+        .btn { padding: 10px 16px; border: none; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 8px; background-color: rgba(0, 0, 0, 0.2); color: var(--text-color); flex: 1; }
+        body.light-theme .btn { background-color: rgba(0,0,0,0.05); }
+        .btn:hover { background-color: rgba(0, 0, 0, 0.4); }
+        body.light-theme .btn:hover { background-color: rgba(0,0,0,0.1); }
+        .btn-primary { background: linear-gradient(45deg, var(--accent-color), var(--accent-hover-color)); color: white !important; flex-grow: 1.5; }
+        .btn.copied { background-color: #4CAF50; color: white; }
+        footer { text-align: center; margin-top: 32px; padding: 20px; color: var(--text-secondary-color); display: flex; flex-direction: column; align-items: center; gap: 16px; z-index: 20; position: relative; }
+        .theme-switch-wrapper { display: flex; align-items: center; gap: 8px; }
+        .theme-switch { position: relative; display: inline-block; width: 50px; height: 26px; }
+        .theme-switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; transition: .4s; border-radius: 26px; }
+        .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: var(--accent-color); }
+        input:checked + .slider:before { transform: translateX(24px); }
         
-        /* QRコードモーダル */
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.7); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); justify-content: center; align-items: center; }
-        .modal-content { background-color: #2c3e50; padding: 24px; border-radius: 12px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.3); position: relative; border: 1px solid var(--card-border-color); }
-        .modal-content #qrcode-container { padding: 16px; background-color: white; border-radius: 8px; display: inline-block; }
-        .close-btn { position: absolute; top: 10px; right: 15px; font-size: 32px; font-weight: bold; color: #aaa; cursor: pointer; transition: color 0.2s ease; }
-        .close-btn:hover { color: white; }
+        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; justify-content: center; align-items: center; background-color: rgba(0,0,0,0.7); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); animation: fadeIn 0.3s ease; }
+        .modal.show { display: flex; }
+        .modal-content { background-color: #2c3e50; padding: 24px; border-radius: 12px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.3); position: relative; border: 1px solid var(--card-border-color); animation: zoomIn 0.3s ease-out; z-index: 1001; }
+        body.light-theme .modal-content { background-color: #f8f9fa; }
+        #qrcode-container { padding: 16px; background-color: white; border-radius: 8px; display: inline-block; }
+        .close-btn { position: absolute; top: 10px; right: 15px; font-size: 32px; font-weight: bold; color: #aaa; cursor: pointer; transition: color 0.2s ease; z-index: 1002; }
+        .close-btn:hover { color: var(--text-color); }
         
-        footer { text-align: center; margin-top: 32px; padding: 20px; color: var(--text-secondary-color); font-size: 14px; }
+        /* ゲームモーダル */
+        #game-modal .modal-content { padding: 8px; max-width: 95vw; }
+        #gameCanvas { border-radius: 8px; max-width: 100%; }
 
-        /* ========= スマートフォン表示の改善 ========= */
-        @media (max-width: 600px) {
-            body { padding: 15px; }
-            .profile { padding: 24px 20px; }
-            .profile-icon { width: 90px; height: 90px; }
-            .profile h1 { font-size: 24px; }
-            .profile p { font-size: 14px; }
-            
-            .link-card {
-                flex-direction: column; /* カード内を縦積みに */
-                align-items: stretch;
-                padding: 16px;
-                gap: 16px; /* 上段と下段の間隔 */
-            }
-            .link-header {
-                padding: 0;
-            }
-            .link-icon {
-                font-size: 26px;
-                margin-right: 16px;
-            }
-            .link-info .service-name { font-size: 17px; }
-            .link-info .display-text { font-size: 13px; }
-
-            .link-buttons {
-                width: 100%;
-            }
-            .btn {
-                flex: 1; /* ボタンを均等幅にする */
-                padding: 10px 8px;
-            }
+        /* スマホ対応 */
+        @media (max-width: 768px) {
+            #links-container { grid-template-columns: 1fr; gap: 16px; }
+            .profile h1 { font-size: 28px; height: 42px; }
+            .profile-actions { flex-direction: column; }
+            .btn span { display: none; }
         }
     </style>
 </head>
-<body>
+<body class="no-select">
     <div class="container">
-        <header class="profile">
-            <div class="profile-icon">
-                <img src="icon.png" alt="プロフィールアイコン">
+        <header class="profile animate-on-load">
+            <div class="profile-icon-wrapper">
+                <div class="profile-icon">
+                    <img src="icon.png" alt="プロフィールアイコン" draggable="false">
+                </div>
+                <div class="icon-hint">何かありそう…？</div>
             </div>
-            <h1 id="profile-name"></h1>
+            <h1><span id="profile-name"></span></h1>
             <p id="profile-school"></p>
             <p id="profile-birthday"></p>
+            <div class="profile-actions">
+                <button id="vcard-btn" class="btn"><i class="fa-solid fa-address-card"></i><span>連絡先を保存</span></button>
+                <button id="share-qr-btn" class="btn"><i class="fa-solid fa-qrcode"></i><span>QRで共有</span></button>
+                <button id="share-btn" class="btn"><i class="fa-solid fa-share-alt"></i><span>リンクで共有</span></button>
+            </div>
         </header>
 
         <main id="links-container"></main>
 
-        <footer>
+        <footer class="animate-on-load" style="animation-delay: 0.3s;">
+            <div class="theme-switch-wrapper">
+                <i class="fa-solid fa-sun"></i>
+                <label class="theme-switch"><input type="checkbox" id="theme-toggle"><span class="slider"></span></label>
+                <i class="fa-solid fa-moon"></i>
+            </div>
             <p id="footer-text"></p>
         </footer>
     </div>
     
     <div id="qr-modal" class="modal">
         <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <h3 id="qr-title">QRコード</h3>
-            <div id="qrcode-container"></div>
+            <span class="close-btn">&times;</span><h3 id="qr-title"></h3><div id="qrcode-container"></div>
+        </div>
+    </div>
+    <div id="game-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span><canvas id="gameCanvas"></canvas>
         </div>
     </div>
 
-    <script>
-    // ============== 設定ここから ==============
-    const profile = { name: "底原 永和", school: "首里中学校 中学2年生", birthday: "誕生日: 4月6日" };
-    const links = [
-        { service: "Instagram", url: "https://www.instagram.com/towa.soko?igsh=c3N6NGd1dTN0dzN4", icon: "fa-brands fa-instagram", color: "#E1306C" },
-        { service: "LINE", url: "https://line.me/ti/p/GFyuY2px8z", icon: "fa-brands fa-line", color: "#06C755" },
-        { service: "X (Twitter)", url: "https://x.com/towasoko_110406?t=t-__OYKTG4MTJ_8QEXoNIQ&s=09", icon: "fa-brands fa-x-twitter", color: "#1DA1F2" },
-        { service: "Whoo", url: "https://www.wh00.ooo/users/towasoko", icon: "fa-solid fa-ghost", color: "#8A2BE2" },
-        { service: "Discord", url: "https://discord.gg/xHazJv8d", icon: "fa-brands fa-discord", color: "#5865F2" },
-        { service: "GAMEサイト", url: "https://towabii.github.io/noutore/", icon: "fa-solid fa-gamepad", color: "#f0ad4e" },
-        { service: "Jiffcy", url: "https://jiffcy-api.herokuapp.com/shares/0zsyte1", icon: "fa-solid fa-gift", color: "#d9534f", qrImage: "QR1.jpeg" },
-        { service: "メール", url: "mailto:towa.soko0406@gmail.com", displayText: "towa.soko0406@gmail.com", icon: "fa-solid fa-envelope", color: "#EA4335", noQr: true },
-        { service: "電話番号", url: "tel:070-19447124", displayText: "070-1944-7124", icon: "fa-solid fa-phone", color: "#4CAF50", noQr: true }
-    ];
-    // ============== 設定ここまで ==============
+<script>
+// ============== 設定ここから ==============
+const profile = { firstName: "永和", lastName: "底原", fullName: "底原 永和", school: "首里中学校 中学2年生", birthday: "誕生日: 4月6日", email: "towa.soko0406@gmail.com", tel: "070-19447124" };
+const links = [
+    { service: "Instagram", url: "https://www.instagram.com/towa.soko?igsh=c3N6NGd1dTN0dzN4", icon: "fa-brands fa-instagram", color: "#E1306C" },
+    { service: "LINE", url: "https://line.me/ti/p/GFyuY2px8z", icon: "fa-brands fa-line", color: "#06C755" },
+    { service: "X (Twitter)", url: "https://x.com/towasoko_110406?t=t-__OYKTG4MTJ_8QEXoNIQ&s=09", icon: "fa-brands fa-x-twitter", color: "#1DA1F2" },
+    { service: "Whoo", url: "https://www.wh00.ooo/users/towasoko", icon: "fa-solid fa-ghost", color: "#8A2BE2" },
+    { service: "Discord", url: "https://discord.gg/xHazJv8d", icon: "fa-brands fa-discord", color: "#5865F2" },
+    { service: "GAMEサイト", url: "https://towabii.github.io/noutore/", icon: "fa-solid fa-gamepad", color: "#f0ad4e" },
+    { service: "Jiffcy", url: "https://jiffcy-api.herokuapp.com/shares/0zsyte1", icon: "fa-solid fa-gift", color: "#d9534f", qrImage: "QR1.jpeg" },
+    { service: "メール", url: `mailto:${profile.email}`, displayText: profile.email, icon: "fa-solid fa-envelope", color: "#EA4335", noQr: true },
+    { service: "電話番号", url: `tel:${profile.tel}`, displayText: profile.tel.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'), icon: "fa-solid fa-phone", color: "#4CAF50", noQr: true }
+];
+// ============== 設定ここまで ==============
 
-    document.addEventListener('DOMContentLoaded', () => {
-        document.getElementById('profile-name').textContent = profile.name;
-        document.getElementById('profile-school').textContent = profile.school;
-        document.getElementById('profile-birthday').textContent = profile.birthday;
-        document.getElementById('footer-text').textContent = `© ${new Date().getFullYear()} ${profile.name}`;
+document.addEventListener('DOMContentLoaded', () => {
+    document.body.addEventListener('contextmenu', e => e.preventDefault());
 
-        const linksContainer = document.getElementById('links-container');
-        const modal = document.getElementById('qr-modal');
-        const qrContainer = document.getElementById('qrcode-container');
-        const qrTitle = document.getElementById('qr-title');
-        const closeModal = document.querySelector('.close-btn');
+    setupTheme();
+    setupProfile();
+    createLinkCards();
+    setupModals();
+    setupTypingEffect();
+    setupIconInteraction();
+});
 
-        links.forEach(link => {
-            const card = document.createElement('div');
-            card.className = 'link-card';
-            
-            // スマホ表示のためにHTML構造を調整
-            card.innerHTML = `
-                <div class="link-header">
-                    <div class="link-icon" style="color: ${link.color};">
-                        <i class="${link.icon}"></i>
-                    </div>
-                    <div class="link-info">
-                        <p class="service-name">${link.service}</p>
-                        ${link.displayText ? `<p class="display-text">${link.displayText}</p>` : ''}
-                    </div>
+function setupTheme() {
+    const themeToggle = document.getElementById('theme-toggle');
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    let isDark = savedTheme !== null ? savedTheme === 'dark' : prefersDark;
+    
+    themeToggle.checked = isDark;
+    if (!isDark) document.body.classList.add('light-theme');
+
+    themeToggle.addEventListener('change', () => {
+        document.body.classList.toggle('light-theme', !themeToggle.checked);
+        localStorage.setItem('theme', themeToggle.checked ? 'dark' : 'light');
+    });
+}
+
+function setupProfile() {
+    document.getElementById('profile-school').textContent = profile.school;
+    document.getElementById('profile-birthday').textContent = profile.birthday;
+    document.getElementById('footer-text').textContent = `© ${new Date().getFullYear()} ${profile.fullName}`;
+    document.getElementById('vcard-btn').addEventListener('click', downloadVCard);
+    document.getElementById('share-btn').addEventListener('click', sharePage);
+    document.getElementById('share-qr-btn').addEventListener('click', sharePageAsQr);
+}
+
+function createLinkCards() {
+    const container = document.getElementById('links-container');
+    links.forEach((link, index) => {
+        const card = document.createElement('div');
+        card.className = 'link-card animate-on-load';
+        card.style.animationDelay = `${0.1 + index * 0.05}s`;
+        card.innerHTML = `
+            <div class="link-header">
+                <div class="link-icon" style="color: ${link.color};"><i class="${link.icon}"></i></div>
+                <div class="link-info">
+                    <p class="service-name">${link.service}</p>
+                    <p class="display-text">${link.displayText || ''}</p>
                 </div>
-                <div class="link-buttons">
-                    ${!link.noQr ? `<button class="btn btn-action btn-qr" title="QRコード表示"><i class="fa-solid fa-qrcode"></i></button>` : ''}
-                    <button class="btn btn-action btn-copy" title="コピー"><i class="fa-solid fa-copy"></i></button>
-                    <a href="${link.url}" target="_blank" rel="noopener noreferrer" class="btn btn-open"><i class="fa-solid fa-arrow-up-right-from-square"></i><span>&nbsp;開く</span></a>
-                </div>
-            `;
-            linksContainer.appendChild(card);
-            
-            const copyBtn = card.querySelector('.btn-copy');
-            if(copyBtn) {
-                const copyValue = link.displayText || link.url;
-                copyBtn.addEventListener('click', () => {
-                    navigator.clipboard.writeText(copyValue).then(() => {
-                        const icon = copyBtn.querySelector('i');
-                        icon.className = 'fa-solid fa-check';
-                        copyBtn.classList.add('copied');
-                        setTimeout(() => {
-                            icon.className = 'fa-solid fa-copy';
-                            copyBtn.classList.remove('copied');
-                        }, 2000);
-                    }).catch(err => alert('コピーに失敗しました。'));
-                });
-            }
-            
-            const qrBtn = card.querySelector('.btn-qr');
-            if (qrBtn) {
-                qrBtn.addEventListener('click', () => {
-                    qrContainer.innerHTML = '';
-                    qrTitle.textContent = `${link.service} QRコード`;
-                    if (link.qrImage) {
-                        qrContainer.innerHTML = `<img src="${link.qrImage}" alt="${link.service} QR Code" style="width: 200px; height: 200px; border-radius: 4px;">`;
-                    } else {
-                        new QRCode(qrContainer, { text: link.url, width: 200, height: 200 });
-                    }
-                    modal.style.display = 'flex';
-                });
+            </div>
+            <div class="link-buttons">
+                ${!link.noQr ? `<button class="btn btn-qr" title="QRコード"><i class="fa-solid fa-qrcode"></i></button>` : ''}
+                <button class="btn btn-copy" title="コピー"><i class="fa-solid fa-copy"></i></button>
+                <a href="${link.url}" target="_blank" rel="noopener noreferrer" class="btn btn-primary"><i class="fa-solid fa-arrow-up-right-from-square"></i><span>開く</span></a>
+            </div>`;
+        container.appendChild(card);
+        setupCardButtons(card, link);
+    });
+}
+
+function setupCardButtons(card, link) {
+    const copyBtn = card.querySelector('.btn-copy');
+    if (copyBtn) {
+        const copyValue = link.displayText ? (link.service === 'メール' ? profile.email : profile.tel) : link.url;
+        copyBtn.addEventListener('click', (e) => { e.stopPropagation(); copyToClipboard(copyBtn, copyValue); });
+    }
+    const qrBtn = card.querySelector('.btn-qr');
+    if (qrBtn) {
+        qrBtn.addEventListener('click', (e) => { e.stopPropagation(); showQrModal(link); });
+    }
+    const openLink = card.querySelector('.btn-primary');
+    if (openLink) {
+        openLink.addEventListener('click', e => e.stopPropagation());
+    }
+}
+
+function setupModals() {
+    document.querySelectorAll('.modal .close-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const modal = btn.closest('.modal');
+            modal.classList.remove('show');
+            if(modal.id === 'game-modal' && window.stopBlockBreakerGame) {
+                window.stopBlockBreakerGame();
             }
         });
-
-        closeModal.onclick = () => modal.style.display = 'none';
-        window.onclick = (event) => {
-            if (event.target == modal) modal.style.display = 'none';
-        };
     });
-    </script>
+    document.querySelectorAll('.modal').forEach(modal => {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                 modal.classList.remove('show');
+                 if(modal.id === 'game-modal' && window.stopBlockBreakerGame) {
+                    window.stopBlockBreakerGame();
+                }
+            }
+        });
+    });
+}
+
+function setupTypingEffect() {
+    if(document.getElementById('profile-name')) {
+        new Typed('#profile-name', { strings: [profile.fullName], typeSpeed: 100, showCursor: true, cursorChar: '_', smartBackspace: true });
+    }
+}
+
+function setupIconInteraction() {
+    const icon = document.querySelector('.profile-icon');
+    let clickCount = 0;
+    let clickTimer;
+    icon.addEventListener('click', () => {
+        clearTimeout(clickTimer);
+        clickCount++;
+        confetti({ particleCount: 50 + Math.random() * 50, spread: 70 + Math.random() * 60, origin: { y: 0.6 } });
+        if (clickCount === 5) {
+            initBlockBreakerGame();
+            clickCount = 0;
+        }
+        clickTimer = setTimeout(() => { clickCount = 0; }, 1500);
+    });
+}
+
+function copyToClipboard(button, text) {
+    navigator.clipboard.writeText(text).then(() => {
+        const icon = button.querySelector('i');
+        const originalClass = icon.className;
+        icon.className = 'fa-solid fa-check';
+        button.classList.add('copied');
+        setTimeout(() => { icon.className = originalClass; button.classList.remove('copied'); }, 2000);
+    }).catch(err => alert('コピーに失敗しました'));
+}
+
+function showQrModal(link) {
+    const modal = document.getElementById('qr-modal');
+    document.getElementById('qr-title').textContent = `${link.service} QRコード`;
+    const qrContainer = document.getElementById('qrcode-container');
+    qrContainer.innerHTML = '';
+    if (link.qrImage) {
+        qrContainer.innerHTML = `<img src="${link.qrImage}" alt="QR Code" style="width: 200px; height: 200px; border-radius: 4px;">`;
+    } else {
+        new QRCode(qrContainer, { text: link.url, width: 200, height: 200 });
+    }
+    modal.classList.add('show');
+}
+
+function downloadVCard() {
+    const vCard = `BEGIN:VCARD\nVERSION:3.0\nFN;CHARSET=UTF-8:${profile.fullName}\nN;CHARSET=UTF-8:${profile.lastName};${profile.firstName};;;\nEMAIL:${profile.email}\nTEL;TYPE=CELL:${profile.tel}\nEND:VCARD`;
+    const blob = new Blob([vCard], { type: "text/vcard;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${profile.firstName}${profile.lastName}.vcf`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+async function sharePage() {
+    const data = { title: `${profile.fullName} | Profile`, text: `底原 永和さんのデジタル名刺です。`, url: window.location.href };
+    try {
+        if (navigator.share) await navigator.share(data);
+        else throw new Error('Web Share API not supported');
+    } catch {
+        copyToClipboard(document.getElementById('share-btn'), window.location.href);
+        alert('このページのURLをコピーしました');
+    }
+}
+
+function sharePageAsQr() {
+    const modal = document.getElementById('qr-modal');
+    document.getElementById('qr-title').textContent = 'このページを共有';
+    const qrContainer = document.getElementById('qrcode-container');
+    qrContainer.innerHTML = '';
+    new QRCode(qrContainer, { text: window.location.href, width: 200, height: 200 });
+    modal.classList.add('show');
+}
+
+function initBlockBreakerGame() {
+    const modal = document.getElementById('game-modal');
+    const canvas = document.getElementById('gameCanvas');
+    if(!canvas) return;
+    const ctx = canvas.getContext('2d');
+    modal.classList.add('show');
+    
+    let w = Math.min(window.innerWidth * 0.9, 480);
+    let h = w * 1.25;
+    canvas.width = w; canvas.height = h;
+
+    const isLightTheme = !document.body.classList.contains('light-theme');
+    let score = 0, lives = 3;
+    const ball = { x: w/2, y: h-30, dx: 0, dy: 0, speed: w * 0.008, radius: w * 0.02 };
+    const paddle = { x: (w - w*0.25)/2, y: h-(w*0.05), width: w*0.25, height: w*0.02, dx: w * 0.015, color: isLightTheme ? '#f0f0f0' : '#333333' };
+    const bricks = [], brickInfo = { rowCount: 5, columnCount: 6, width: w*0.14, height: w*0.04, padding: w*0.01, offsetTop: w*0.08, offsetLeft: w*0.03 };
+    for(let c=0; c<brickInfo.columnCount; c++) { bricks[c] = []; for(let r=0; r<brickInfo.rowCount; r++) { bricks[c][r] = { x: 0, y: 0, status: 1 }; } }
+
+    let rightPressed = false, leftPressed = false, gameStarted = false, animationFrameId;
+
+    function startGame() { if(!gameStarted) { ball.dx = ball.speed / Math.sqrt(2); ball.dy = -ball.speed / Math.sqrt(2); gameStarted = true; } }
+    const keyDown = e => { if(e.key == "Right" || e.key == "ArrowRight") rightPressed = true; else if(e.key == "Left" || e.key == "ArrowLeft") leftPressed = true; startGame(); }
+    const keyUp = e => { if(e.key == "Right" || e.key == "ArrowRight") rightPressed = false; else if(e.key == "Left" || e.key == "ArrowLeft") leftPressed = false; }
+    const moveHandler = (clientX) => { let rect = canvas.getBoundingClientRect(); let relX = clientX - rect.left; if(relX > 0 && relX < w) { paddle.x = Math.max(0, Math.min(w - paddle.width, relX - paddle.width/2)); } }
+    const touchMove = e => { e.preventDefault(); moveHandler(e.touches[0].clientX); startGame(); }
+    const mouseMove = e => { moveHandler(e.clientX); }
+    const clickStart = () => startGame();
+
+    document.addEventListener("keydown", keyDown); document.addEventListener("keyup", keyUp);
+    canvas.addEventListener("touchstart", clickStart, {once: true}); canvas.addEventListener("touchmove", touchMove, { passive: false });
+    canvas.addEventListener("mousedown", clickStart, {once: true}); canvas.addEventListener("mousemove", mouseMove);
+    
+    window.stopBlockBreakerGame = () => { cancelAnimationFrame(animationFrameId); document.removeEventListener("keydown", keyDown); document.removeEventListener("keyup", keyUp); canvas.removeEventListener("touchstart", clickStart); canvas.removeEventListener("touchmove", touchMove); canvas.removeEventListener("mousedown", clickStart); canvas.removeEventListener("mousemove", mouseMove); window.stopBlockBreakerGame = null; };
+
+    const drawBall = () => { ctx.beginPath(); ctx.arc(ball.x, ball.y, ball.radius, 0, Math.PI*2); ctx.fillStyle = "#4facfe"; ctx.fill(); ctx.closePath(); }
+    const drawPaddle = () => { ctx.beginPath(); ctx.rect(paddle.x, paddle.y, paddle.width, paddle.height); ctx.fillStyle = paddle.color; ctx.fill(); ctx.closePath(); }
+    const drawBricks = () => { for(let c=0; c<brickInfo.columnCount; c++) for(let r=0; r<brickInfo.rowCount; r++) if(bricks[c][r].status == 1) { let b = bricks[c][r]; b.x = (c*(brickInfo.width+brickInfo.padding))+brickInfo.offsetLeft; b.y = (r*(brickInfo.height+brickInfo.padding))+brickInfo.offsetTop; ctx.beginPath(); ctx.rect(b.x, b.y, brickInfo.width, brickInfo.height); let g=ctx.createLinearGradient(b.x,b.y,b.x+brickInfo.width,b.y+brickInfo.height); g.addColorStop(0,"#4facfe"); g.addColorStop(1,"#00f2fe"); ctx.fillStyle=g; ctx.fill(); ctx.closePath(); } }
+    const collisionDetection = () => { for(let c=0; c<brickInfo.columnCount; c++) for(let r=0; r<brickInfo.rowCount; r++) { let b = bricks[c][r]; if(b.status == 1 && ball.x > b.x && ball.x < b.x+brickInfo.width && ball.y > b.y && ball.y < b.y+brickInfo.height) { ball.dy = -ball.dy; b.status = 0; score++; if(score == brickInfo.rowCount*brickInfo.columnCount) { alert("YOU WIN, CONGRATULATIONS!"); window.stopBlockBreakerGame(); modal.classList.remove('show'); } } } };
+    const drawInfo = () => { ctx.font = `${w*0.04}px Poppins`; ctx.fillStyle = "#fff"; ctx.fillText(`Score: ${score}`, 8, w*0.05); ctx.fillText(`Lives: ${lives}`, w - w*0.18, w*0.05); if(!gameStarted) { ctx.font = `bold ${w*0.05}px Poppins`; ctx.textAlign="center"; ctx.fillText("Click or Press Key to Start", w/2, h/2); } };
+    
+    function resetBallAndPaddle() { gameStarted = false; ball.x = w/2; ball.y = paddle.y - ball.radius - 2; ball.dx = 0; ball.dy = 0; paddle.x = (w-paddle.width)/2; }
+    
+    function draw() {
+        ctx.clearRect(0, 0, w, h);
+        drawBricks(); drawBall(); drawPaddle(); drawInfo(); collisionDetection();
+        
+        if(ball.x + ball.dx > w-ball.radius || ball.x + ball.dx < ball.radius) ball.dx = -ball.dx;
+        if(ball.y + ball.dy < ball.radius) ball.dy = -ball.dy;
+        else if(ball.y + ball.dy > paddle.y - ball.radius) {
+            if(ball.x > paddle.x && ball.x < paddle.x + paddle.width) {
+                let collidePoint = (ball.x - (paddle.x + paddle.width/2)) / (paddle.width/2);
+                let angle = collidePoint * (Math.PI / 3);
+                ball.dx = ball.speed * Math.sin(angle);
+                ball.dy = -ball.speed * Math.cos(angle);
+            } else if (ball.y + ball.dy > h) { lives--; if(!lives) { alert("GAME OVER"); window.stopBlockBreakerGame(); modal.classList.remove('show'); } else { resetBallAndPaddle(); } }
+        }
+        
+        if(rightPressed && paddle.x < w-paddle.width) paddle.x += paddle.dx;
+        if(leftPressed && paddle.x > 0) paddle.x -= paddle.dx;
+        
+        ball.x += ball.dx; ball.y += ball.dy;
+        animationFrameId = requestAnimationFrame(draw);
+    }
+    draw();
+}
+</script>
 </body>
 </html>
